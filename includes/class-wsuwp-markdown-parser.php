@@ -82,11 +82,12 @@ class WSUWP_Markdown_Parser {
 		$args = wp_parse_args( $args, array(
 			'id' => false,
 			'unslash' => true,
-			'decode_code_blocks' => ! $this->get_parser()->use_code_shortcode
+			'decode_code_blocks' => ! $this->get_parser()->use_code_shortcode,
 		) );
 		// probably need to unslash
-		if ( $args['unslash'] )
+		if ( $args['unslash'] ) {
 			$text = wp_unslash( $text );
+		}
 
 		/**
 		 * Filter the content to be run through Markdown, before it's transformed by Markdown.
@@ -114,7 +115,7 @@ class WSUWP_Markdown_Parser {
 		// Transform it!
 		$text = $this->get_parser()->transform( $text );
 		// Fix footnotes - kses doesn't like the : IDs it supplies
-		$text = preg_replace( '/((id|href)="#?fn(ref)?):/', "$1-", $text );
+		$text = preg_replace( '/((id|href)="#?fn(ref)?):/', '$1-', $text );
 		// Markdown inserts extra spaces to make itself work. Buh-bye.
 		$text = rtrim( $text );
 		/**
@@ -130,8 +131,9 @@ class WSUWP_Markdown_Parser {
 		$text = apply_filters( 'wpcom_markdown_transform_post', $text, $args );
 
 		// probably need to re-slash
-		if ( $args['unslash'] )
+		if ( $args['unslash'] ) {
 			$text = wp_slash( $text );
+		}
 
 		return $text;
 	}
