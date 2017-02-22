@@ -349,7 +349,10 @@ class WPCom_Markdown {
 	public function get_parser() {
 
 		if ( ! self::$parser ) {
-			jetpack_require_lib( 'markdown' );
+			// Replace the Jetpack require statement with a more generic one.
+			require_once( dirname( __FILE__ ) . '/markdown/extra.php' );
+			require_once( dirname( __FILE__ ) . '/markdown/gfm.php' );
+
 			self::$parser = new WPCom_GHF_Markdown_Parser;
 		}
 
